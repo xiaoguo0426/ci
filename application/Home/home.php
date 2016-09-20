@@ -1,40 +1,42 @@
 <?php
-//环境定义
-define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
-switch (ENVIRONMENT) {
-    case 'development':
-        error_reporting(-1);
-        ini_set('display_errors', 1);
-        break;
 
-    case 'testing':
-    case 'production':
-        ini_set('display_errors', 0);
-        if (version_compare(PHP_VERSION, '5.3', '>=')) {
-            error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT & ~E_USER_NOTICE & ~E_USER_DEPRECATED);
-        } else {
-            error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_USER_NOTICE);
-        }
-        break;
-
-    default:
-        header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
-        echo 'The application environment is not set correctly.';
-        exit(1); // EXIT_ERROR
-}
-define('APP', 'System');                            //默认应用
-//系统目录
 $system_path = 'system';
-//默认模块目錄
-$application_folder = 'application/' . APP;         //CI框架承载多个应用;指定默认应用
-//试图目录
+
+$application_folder = 'application/Home';		//CI框架承载多个应用;指定默认应用
+// $application_folder = APP_PATH.DEFAULT_APP;
+
 $view_folder = '';
-//默认控制器目录
-//$routing['directory'] = 'Index';
-//默认控制器
-//$routing['controller'] = 'Index';
-//默认方法
-//$routing['function'] = 'index';
+	
+
+/*
+ * --------------------------------------------------------------------
+ * DEFAULT CONTROLLER
+ * --------------------------------------------------------------------
+ *
+ * Normally you will set your default controller in the routes.php file.
+ * You can, however, force a custom routing by hard-coding a
+ * specific controller class/function here. For most applications, you
+ * WILL NOT set your routing here, but it's an option for those
+ * special instances where you might want to override the standard
+ * routing in a specific front controller that shares a common CI installation.
+ *
+ * IMPORTANT: If you set the routing here, NO OTHER controller will be
+ * callable. In essence, this preference limits your application to ONE
+ * specific controller. Leave the function name blank if you need
+ * to call functions dynamically via the URI.
+ *
+ * Un-comment the $routing array below to use this feature
+ */
+// The directory name, relative to the "controllers" directory.  Leave blank
+// if your controller is not in a sub-directory within the "controllers" one
+// $routing['directory'] = '';
+
+// The controller class file name.  Example:  mycontroller
+// $routing['controller'] = '';
+
+// The controller function you wish to be called.
+// $routing['function']	= '';
+
 
 // Set the current directory correctly for CLI requests
 if (defined('STDIN')) {
@@ -51,12 +53,19 @@ if (($_temp = realpath($system_path)) !== FALSE) {
             DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR
         ) . DIRECTORY_SEPARATOR;
 }
+
 // Is the system path correct?
 if (!is_dir($system_path)) {
     header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
     echo 'Your system folder path does not appear to be set correctly. Please open the following file and correct this: ' . pathinfo(__FILE__, PATHINFO_BASENAME);
     exit(3); // EXIT_CONFIG
 }
+
+/*
+ * -------------------------------------------------------------------
+ *  Now that we know the path, set the main path constants
+ * -------------------------------------------------------------------
+ */
 // The name of THIS file
 define('SELF', pathinfo(__FILE__, PATHINFO_BASENAME));
 
@@ -121,4 +130,11 @@ if (!isset($view_folder[0]) && is_dir(APPPATH . 'views' . DIRECTORY_SEPARATOR)) 
 
 define('VIEWPATH', $view_folder . DIRECTORY_SEPARATOR);
 
+/*
+ * --------------------------------------------------------------------
+ * LOAD THE BOOTSTRAP FILE
+ * --------------------------------------------------------------------
+ *
+ * And away we go...
+ */
 require_once BASEPATH . 'core/CodeIgniter.php';

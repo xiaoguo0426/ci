@@ -17,7 +17,11 @@ class CI_Base extends CI_Controller
     {
         parent::__construct();
         $this->CI = &get_instance();//CI超级对象
+    }
 
+    public function isLogin()
+    {
+        return empty($_SESSION['users']) ? false : true;
     }
 
     public function display($template = '')

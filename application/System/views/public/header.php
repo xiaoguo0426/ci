@@ -20,4 +20,3 @@
     <link href="<?php echo css_url('style.css'); ?>" rel="stylesheet">
 </head>
 
-<body>

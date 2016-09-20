@@ -9,10 +9,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class Admin extends CI_Base
 {
-
-    public function index()
+    /**
+     * 登陆
+     */
+    public function login()
     {
-        $this->load->view('admin/index');
+        if ($this->isLogin()) {
+            redirect(base_url('Index/Index/index'));
+        } else {
+            $this->load->view('admin/login');
+        }
     }
 
 }

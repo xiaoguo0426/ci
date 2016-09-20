@@ -4,7 +4,7 @@
  */
 requirejs.config({
     // baseUrl: 'http://odanj4w3g.bkt.clouddn.com/',
-    baseUrl: 'assets/system/js/',
+    baseUrl: '/assets/system/js/',
     paths: {
         "jquery": "jquery",
         "bootstrap": "bootstrap",
